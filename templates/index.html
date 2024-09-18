@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Enter Your Marks:</h1>
+    <form id="marksForm" method="post" onsubmit="return validateForm()">
+        <label for="rmit">RMIT:</label>
+        <input type="number" id="rmit" name="rmit" step="0.01" required><br>
+        <label for="cis">CIS:</label>
+        <input type="number" id="cis" name="cis" step="0.01" required><br>
+        <label for="sppm">SPPM:</label>
+        <input type="number" id="sppm" name="sppm" step="0.01" required><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="error-message" style="color: red;"></div>
+
+    {% if result %}
+        <h1>Required Minimum Marks for 'Final Project':</h1>
+        {% if result == 'Invalid input. Please ensure all marks are between 0 and 100.' %}
+            <p>{{ result }}</p>
+        {% else %}
+            <ul>
+                {% for class_name, mark in result.items() %}
+                    <li>{{ class_name }}: {{ mark if mark != 'Not possible' else mark }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a href="/">Try Again</a>
+    {% endif %}
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
